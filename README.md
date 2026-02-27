@@ -12,20 +12,38 @@ Code to use camera to take a picture and store it into a specified file
 - The other computer run `nc <first_computer_ip_addr> <port_number>`
 - The boards should be able to talk to each other
 ### Connecting the two boards
-Board connection is port 9999
-
-Computer connection is port 8888
-#### Board A:
+- Board connection is port 9999, 5555
+- Computer connection is port 8888, 4444
+- A is on MacOS, B is on Windows.
+#### Board A is Client, Board B is Server
+##### Board A:
 - `nc 192.168.2.1 9999`
-#### Computer A:
+##### Computer A:
+- `rm -f to_board from_board`
 - `mkfifo to_board from_board`
-- `nc -l 9999 < to_board > from_board &`
-- `nc 137.110.40.73 8888 < from_board > to_board &`
-- `tee from_board`
-#### Computer B:
+- `exec 3<>to_board`
+- `exec 4<>from_board`
+- `nc -l 9999 <&3 >&4`
+- `nc 137.110.40.73 8888 <&4 >&3`
+##### Computer B:
 - `ncat -l 8888 --sh-exec "ncat 192.168.2.99 9999"`
-#### Board B:
+##### Board B:
 - `nc -l 9999`
+
+#### Board A is Server, Board B is Client
+##### Board A:
+`nc -l 5555`
+##### Computer A:
+- `rm -f to_board2 from_board2`
+- `mkfifo to_board2 from_board2`
+- `exec 5<> to_board2`
+- `exec 6<> from_board2`
+- `nc 192.168.2.99 5555 <&5 >&6`
+- `nc -l 4444 <&6 >&5`
+##### Computer B:
+- `ncat 137.110.33.167 4444 --ssh-exec "ncat -l 5555`
+##### Board B:
+- `nc 192.168.2.1 5555`
 ## References
 | Description | Link |
 | ---- | --- |
