@@ -32,6 +32,11 @@ nc 137.110.40.73 8888 <&4 >&3
 ##### Board B:
 - `nc -l 9999`
 
+### "Address already in use" or cannot see connection anymore:
+- 'sudo pkill -f nc'
+this will restart the jupyter notebook kernel
+then check connection
+
 ## References
 | Description | Link |
 | ---- | --- |
