@@ -41,7 +41,10 @@ In order:
 3. computer A
 4. board A
 
-If you get the error message `Operation not permitted`, you need to run `sudo pkill -f nc`
+### "Address already in use" or cannot see connection anymore:
+`sudo pkill -f nc`
+this will restart the jupyter notebook kernel
+then check connection
 
 ## References
 | Description | Link |
