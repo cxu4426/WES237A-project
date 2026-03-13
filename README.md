@@ -12,8 +12,11 @@ Code to use camera to take a picture and store it into a specified file
 - The other computer run `nc <first_computer_ip_addr> <port_number>`
 - The boards should be able to talk to each other
 ### Connecting the two boards
-- Board connection is port 9999, 5555
-- Computer connection is port 8888, 4444
+First, connect to UCSD VPN and get your ip using `ifconfig`
+
+Then follow the below steps to connect the two boards
+- Board connection is port 9999
+- Computer connection is port 8888
 - A is on MacOS, B is on Windows.
 #### Board A is Client, Board B is Server
 ##### Board A:
@@ -31,6 +34,14 @@ nc 137.110.40.73 8888 <&4 >&3
 - `ncat -l 8888 --sh-exec "ncat 192.168.2.99 9999"`
 ##### Board B:
 - `nc -l 9999`
+
+In order:
+1. board B
+2. computer B
+3. computer A
+4. board A
+
+If you get the error message `Operation not permitted`, you need to run `sudo pkill -f nc`
 
 ## References
 | Description | Link |
